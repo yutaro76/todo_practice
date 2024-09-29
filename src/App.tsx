@@ -3,6 +3,7 @@ import { useState } from 'react';
 type Todo = {
   value: string;
   readonly id: number;
+  checked: boolean;
 };
 
 export const App = () => {
@@ -25,6 +26,7 @@ export const App = () => {
     const newTodo: Todo = {
       value: text,
       id: new Date().getTime(), 
+      checked: false,
     }
 
     // todosには今のtodoのリストが入っている。それを一度展開して、最初に新しいtodoを追加する。
@@ -50,6 +52,20 @@ export const App = () => {
     )
   }
 
+  const handleCheck = (id: number, checked: boolean) => {
+    setTodos((todos) => {
+      const newTodos = todos.map((todo) => {
+        if (todo.id === id) {
+          return { ...todo, checked };
+        }
+        return todo;
+      });
+
+      return newTodos;
+
+    });
+  };
+
 
   return (
     <div>
@@ -72,7 +88,13 @@ export const App = () => {
           return (
             <li key={todo.id}>
               <input
+              type="checkbox"
+              checked={todo.checked}
+              onChange={() => handleCheck(todo.id, !todo.checked)}
+              />
+              <input
                 type="text"
+                disabled={todo.checked}
                 value={todo.value}
                 onChange={(e) => handleEdit(todo.id, e.target.value)}
               />
