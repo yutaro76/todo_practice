@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 type Todo = {
   value: string;
+  readonly id: number;
 };
 
 export const App = () => {
@@ -23,6 +24,7 @@ export const App = () => {
     // 新しいtodoを作成
     const newTodo: Todo = {
       value: text,
+      id: new Date().getTime(), 
     }
 
     // todosには今のtodoのリストが入っている。それを一度展開して、最初に新しいtodoを追加する。
@@ -51,7 +53,7 @@ export const App = () => {
       </form>
       <ul>
         {todos.map((todo) => {
-          return <li>{todo.value}</li>;
+          return <li key={todo.id}>{todo.value}</li>;
         })}
       </ul>
     </div>
